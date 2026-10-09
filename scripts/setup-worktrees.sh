@@ -20,8 +20,13 @@ declare -A BRANCH=(
 )
 ORDER=(chief code-master visual-arts-master sound-master)
 
-git check-ignore -q .worktrees || { echo "error: .worktrees/ must be gitignored" >&2; exit 1; }
+# The ignore pattern is directory-only (.worktrees/), so the directory must exist before check-ignore can match it.
 mkdir -p .worktrees
+git check-ignore -q .worktrees || { echo "error: .worktrees/ must be gitignored" >&2; exit 1; }
+
+# New agent branches start from integration (the team baseline); main is the fallback on a fresh repo.
+BASE=main
+git show-ref --verify -q refs/heads/integration && BASE=integration
 
 for agent in "${ORDER[@]}"; do
   branch="${BRANCH[$agent]}"
@@ -33,7 +38,7 @@ for agent in "${ORDER[@]}"; do
   if git show-ref --verify -q "refs/heads/$branch"; then
     git worktree add "$path" "$branch" >/dev/null
   else
-    git worktree add -b "$branch" "$path" main >/dev/null
+    git worktree add -b "$branch" "$path" "$BASE" >/dev/null
   fi
   echo "created $path  ($branch)"
 done
