@@ -3,7 +3,8 @@
 # Layout: .worktrees/<agent> on branch <branch>, all sharing this repo's .git. See docs/notes/agent-protocol.md.
 set -euo pipefail
 
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# Resolve the main checkout even when run from inside a linked worktree.
+REPO="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")"
 cd "$REPO"
 
 if ! git rev-parse --verify -q HEAD >/dev/null; then
@@ -22,7 +23,7 @@ ORDER=(chief code-master visual-arts-master sound-master)
 
 # The ignore pattern is directory-only (.worktrees/), so the directory must exist before check-ignore can match it.
 mkdir -p .worktrees
-git check-ignore -q .worktrees || { echo "error: .worktrees/ must be gitignored" >&2; exit 1; }
+git check-ignore -q .worktrees/ || { echo "error: .worktrees/ must be gitignored" >&2; exit 1; }
 
 # New agent branches start from integration (the team baseline); main is the fallback on a fresh repo.
 BASE=main
