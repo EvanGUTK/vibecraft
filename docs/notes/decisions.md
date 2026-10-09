@@ -8,6 +8,14 @@ updated: 2026-10-09
 Newest first. One entry per decision: date, decision, why, alternatives considered. Reversing a decision is a new
 entry that links the old one. See [[architecture]] for the design these decisions produce.
 
+## 2026-10-09 — ADR-014: Private GitHub remote for backup and transfer only
+**Decision.** `origin` is the private repo `EvanGUTK/vibecraft`. `main`, `integration` and the three `agent/*`
+branches are pushed by the user. Worktrees are never pushed; `scripts/setup-worktrees.sh` rebuilds them from the
+branches after a clone. No pull requests, no CI.
+**Why.** The user works across machines and needs the whole team setup to survive a clone. ADR-012's rule still
+holds: Chief is the only merger and the board plus handoffs are the shared channel.
+**Alternatives.** PR-based flow with GitHub Actions (revisit when the user asks; architecture §16 item 8).
+
 ## 2026-10-09 — ADR-013: Repo lives in the WSL filesystem, not on `/mnt/c`
 **Decision.** The repo and all worktrees live at `~/projects/vibecraft` (ext4 inside WSL). Windows reaches it at
 `\\wsl$\Ubuntu\home\egoodman\projects\vibecraft`.

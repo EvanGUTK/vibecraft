@@ -19,8 +19,10 @@ worktree. Design in [[architecture]] §14; decision in [[decisions]] ADR-012.
 | Sound Master | `.worktrees/sound-master` | `agent/sound-master` | audio engine, SFX, music, ambience, sound events, sound pipeline |
 
 - `main` is protected. Only the **user** promotes `integration` → `main` (fast-forward) when a milestone exits.
-- All worktrees share one `.git`; there is no remote. `git merge integration` is how an agent receives everyone
-  else's merged work. Agents never merge each other's branches directly.
+- All worktrees share one `.git`. `git merge integration` is how an agent receives everyone else's merged work.
+  Agents never merge each other's branches directly.
+- The private GitHub repo `EvanGUTK/vibecraft` is the backup and the way to move between machines (ADR-014). Only
+  the user pushes. No pull requests and no CI yet.
 - Ownership by path is in `CLAUDE.md`. An agent edits only its own paths. Everything else is a **request** (§4).
 
 ## 2. Session routine (every agent, every session)

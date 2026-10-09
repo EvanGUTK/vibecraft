@@ -9,8 +9,10 @@ Maintained by Chief. One line per task, one owner, newest milestone first. Legen
 `[r]` in review by Chief · `[x]` done (date) · `[!]` blocked (say why). Agents move their own items; only Chief
 adds milestones or reorders. Design in [[architecture]], process in [[agent-protocol]].
 
-## Gate 0 — architecture approval (user)
-- [ ] User reviews `docs/notes/architecture.md` §16 and confirms or overrules the defaults — **blocks all M0 code**
+## Gate 0 — kickoff (user + Chief)
+- [ ] Chief walks the user through launching all four agents (`bash scripts/spawn-agents.sh`) and confirms each has reported in
+- [ ] User confirms or overrules the ten defaults in `docs/notes/architecture.md` §16 — **blocks all M0 code**
+- [ ] Chief records the answers (ADRs) and writes one M0 kickoff handoff per agent
 
 ## M0 — Foundations (target first integration: 2026-10-16)
 

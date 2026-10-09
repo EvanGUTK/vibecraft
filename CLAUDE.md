@@ -40,7 +40,10 @@ Chief. Never edit another agent's paths directly.
 - `main` is protected. Only the user promotes `integration` → `main`.
 - `integration` is Chief's branch and worktree (`.worktrees/chief`). All agent work merges here after review.
 - `agent/code-master`, `agent/visual-arts-master`, `agent/sound-master` live in `.worktrees/<name>`.
-- All worktrees share one `.git`; there is no remote yet. `git merge integration` pulls in everyone else's work.
+- All worktrees share one `.git`. `git merge integration` pulls in everyone else's work.
+- Remote: private `github.com/EvanGUTK/vibecraft` (backup and machine-to-machine transfer; only the user pushes;
+  no PRs or CI yet). Worktrees are gitignored and never pushed. After a clone run `bash scripts/setup-worktrees.sh`;
+  it rebuilds all four from the pushed branches.
 - Re-create worktrees any time with `bash scripts/setup-worktrees.sh`; open the four agent windows with
   `bash scripts/spawn-agents.sh`.
 

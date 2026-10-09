@@ -25,9 +25,14 @@ ORDER=(chief code-master visual-arts-master sound-master)
 mkdir -p .worktrees
 git check-ignore -q .worktrees/ || { echo "error: .worktrees/ must be gitignored" >&2; exit 1; }
 
+# On a fresh clone only main exists locally; the other branches come from origin. Fetch is best effort.
+git remote get-url origin >/dev/null 2>&1 && git fetch --quiet origin || true
+
 # New agent branches start from integration (the team baseline); main is the fallback on a fresh repo.
 BASE=main
-git show-ref --verify -q refs/heads/integration && BASE=integration
+if git show-ref --verify -q refs/heads/integration; then BASE=integration
+elif git show-ref --verify -q refs/remotes/origin/integration; then BASE=origin/integration
+fi
 
 for agent in "${ORDER[@]}"; do
   branch="${BRANCH[$agent]}"
@@ -38,6 +43,8 @@ for agent in "${ORDER[@]}"; do
   fi
   if git show-ref --verify -q "refs/heads/$branch"; then
     git worktree add "$path" "$branch" >/dev/null
+  elif git show-ref --verify -q "refs/remotes/origin/$branch"; then
+    git worktree add --track -b "$branch" "$path" "origin/$branch" >/dev/null
   else
     git worktree add -b "$branch" "$path" "$BASE" >/dev/null
   fi
