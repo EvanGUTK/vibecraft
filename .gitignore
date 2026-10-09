@@ -1,0 +1,35 @@
+# dependencies / build output
+node_modules/
+dist/
+build/
+.vite/
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+*.log
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# claude code local state
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/agent-memory-local/
+.remember/
+
+# agent worktrees live inside the repo but are never committed
+.worktrees/
+
+# generated assets (built by tools/, never hand-edited)
+apps/web/public/generated/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
